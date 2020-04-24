@@ -95,7 +95,7 @@
             <Font name="Pacifico Regular" size="17.0" />
          </font>
       </Button>
-      <Button fx:id="removeProductButton" layoutX="492.0" layoutY="287.0" mnemonicParsing="false" onAction="#deleteButtonPressed" prefHeight="43.0" prefWidth="155.0" style="-fx-background-color: #F39C63;" text="Remove product" textFill="WHITE">
+      <Button fx:id="removeProductButton" layoutX="486.0" layoutY="287.0" mnemonicParsing="false" onAction="#deleteButtonPressed" prefHeight="43.0" prefWidth="155.0" style="-fx-background-color: #F39C63;" text="Remove product" textFill="WHITE">
          <font>
             <Font name="Pacifico Regular" size="17.0" />
          </font>
@@ -108,12 +108,12 @@
       <TableView fx:id="table" layoutX="-1.0" layoutY="354.0" prefHeight="347.0" prefWidth="1100.0" style="-fx-background-color: #F39C63;">
         <columns>
           <TableColumn fx:id="ID" prefWidth="91.0" text="ID" />
-          <TableColumn fx:id="name" prefWidth="209.0" text="Name" />
-            <TableColumn fx:id="price" prefWidth="124.0" text="Price, Eur" />
+          <TableColumn fx:id="name" onEditCommit="#changeProductNameCellEvent" prefWidth="209.0" text="Name" />
+            <TableColumn fx:id="price" onEditCommit="#changeProductPriceCellEvent" prefWidth="124.0" text="Price, Eur" />
             <TableColumn fx:id="category" prefWidth="147.0" text="Category" />
-            <TableColumn fx:id="discount" prefWidth="110.0" text="Discount, %" />
+            <TableColumn fx:id="discount" onEditCommit="#changeProductDiscountCellEvent" prefWidth="110.0" text="Discount, %" />
             <TableColumn fx:id="actualPrice" prefWidth="168.0" text="Actual Price, Eur" />
-            <TableColumn fx:id="description" prefWidth="250.0" text="Description" />
+            <TableColumn fx:id="description" onEditCommit="#changeProductDescriptionCellEvent" prefWidth="250.0" text="Description" />
         </columns>
       </TableView>
       <Text fill="#fcae55" layoutX="817.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Set Discount for Category" wrappingWidth="240.72000122070312">
@@ -141,7 +141,7 @@
             <Font name="Pacifico Regular" size="17.0" />
          </font>
       </Button>
-      <Button fx:id="showAllButton" layoutX="682.0" layoutY="287.0" mnemonicParsing="false" onAction="#showAllButtonPressed" prefHeight="43.0" prefWidth="155.0" style="-fx-background-color: #F39C63;" text="Show all" textFill="WHITE">
+      <Button fx:id="showAllButton" layoutX="673.0" layoutY="287.0" mnemonicParsing="false" onAction="#showAllButtonPressed" prefHeight="43.0" prefWidth="155.0" style="-fx-background-color: #F39C63;" text="Show all" textFill="WHITE">
          <font>
             <Font name="Pacifico Regular" size="17.0" />
          </font>
@@ -169,5 +169,10 @@
       <Line endX="598.5" endY="-127.0" layoutX="162.0" layoutY="127.0" startX="598.5" startY="129.5" stroke="#f2f2f2" />
       <Line endX="409.0" endY="-35.0" layoutX="-109.0" layoutY="171.0" startX="868.0" startY="-35.0" stroke="#f2f2f2" />
       <ComboBox fx:id="showCategoryComboBox" layoutX="404.0" layoutY="204.0" prefWidth="150.0" promptText="choose the category" />
+      <Button fx:id="RefreshButton" layoutX="860.0" layoutY="286.0" mnemonicParsing="false" onAction="#refreshButtonPressed" prefHeight="43.0" prefWidth="155.0" style="-fx-background-color: #F39C63;" text="Refresh" textFill="WHITE">
+         <font>
+            <Font name="Pacifico Regular" size="17.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

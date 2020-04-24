@@ -74,4 +74,14 @@ public class ProductRepository implements ProductService<Product> {
                 .collect(Collectors.toCollection(FXCollections::observableArrayList));
         return filteredCategory;
     }
+
+    @Override
+    public void calculateActualPrice() {
+        productList.stream().
+                map(product -> {
+                    product.setActualPrice((product.getPrice().multiply(BigDecimal.valueOf(100).subtract(product.getDiscount()))).divide(BigDecimal.valueOf(100)));
+                    return product;
+                })
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
+    }
 }

@@ -13,6 +13,8 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
+import javafx.util.converter.BigDecimalStringConverter;
 import lv.javaguru.Database.ProductCategory;
 import lv.javaguru.Database.ProductRepository;
 import lv.javaguru.Database.ProductService;
@@ -115,6 +117,10 @@ public class PrimaryController implements Initializable {
         table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         table.setEditable(true);
         name.setCellFactory(TextFieldTableCell.forTableColumn());
+        description.setCellFactory(TextFieldTableCell.forTableColumn());
+        price.setCellFactory(TextFieldTableCell.forTableColumn(new BigDecimalStringConverter()));
+        discount.setCellFactory(TextFieldTableCell.forTableColumn(new BigDecimalStringConverter()));
+
 
         addingProductPriceField.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -149,7 +155,6 @@ public class PrimaryController implements Initializable {
 
     public void addProductButtonPressed(){
 
-
         try {
             Product newProduct = new Product (addingProductNameField.getText(), BigDecimal.valueOf(Double.parseDouble(addingProductPriceField.getText())), addingProductCategoryField.getValue());
 
@@ -176,6 +181,29 @@ public class PrimaryController implements Initializable {
         productSelected.setName(editedNameCell.getNewValue().toString());
     }
 
+    public void changeProductPriceCellEvent(TableColumn.CellEditEvent editedPriceCell){
+        Product productSelected = table.getSelectionModel().getSelectedItem();
+        productSelected.setPrice(BigDecimal.valueOf(Double.parseDouble(editedPriceCell.getNewValue().toString())));
+    }
+
+    public void changeProductDescriptionCellEvent(TableColumn.CellEditEvent editedDescriptionCell){
+        Product productSelected = table.getSelectionModel().getSelectedItem();
+        productSelected.setDescription(editedDescriptionCell.getNewValue().toString());
+    }
+
+    public void changeProductDiscountCellEvent(TableColumn.CellEditEvent editedDiscountCell){
+        Product productSelected = table.getSelectionModel().getSelectedItem();
+        try {
+            productSelected.setDiscount(BigDecimal.valueOf(Double.parseDouble(editedDiscountCell.getNewValue().toString())));
+            table.getColumns().get(0).setVisible(false);
+            table.getColumns().get(0).setVisible(true);
+        }
+        catch (Exception e){
+            WarningDialog.showWarning(e.getMessage());
+        }
+    }
+
+
     public void deleteButtonPressed(){
         ObservableList<Product> selectedRows, productsToShow;
         productsToShow = table.getItems();
@@ -196,12 +224,23 @@ public class PrimaryController implements Initializable {
     }
 
     public void setDiscountButtonPressed(){
-        productService.setDiscountForCategory(allProductList, discountProductCategoryField.getValue(), BigDecimal.valueOf(Double.parseDouble(discountCategoryField.getText())));
-        table.getColumns().get(0).setVisible(false);
-        table.getColumns().get(0).setVisible(true);
+        try {
+            productService.setDiscountForCategory(allProductList, discountProductCategoryField.getValue(), BigDecimal.valueOf(Double.parseDouble(discountCategoryField.getText())));
+            table.getColumns().get(0).setVisible(false);
+            table.getColumns().get(0).setVisible(true);
+        }
+        catch (Exception e){
+            WarningDialog.showWarning("Empty field");
+        }
     }
 
     public void showCategoryButtonPressed(){
         table.setItems(productService.showCategory(showCategoryComboBox.getValue()));
+    }
+
+    public void refreshButtonPressed(){
+        productService.calculateActualPrice();
+        table.getColumns().get(0).setVisible(false);
+        table.getColumns().get(0).setVisible(true);
     }
 }

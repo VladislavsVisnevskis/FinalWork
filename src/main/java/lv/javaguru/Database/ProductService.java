@@ -25,4 +25,6 @@ public interface ProductService<T> {
     public void setDiscountForCategory(ObservableList<Product> list, ProductCategory category, BigDecimal discount);
 
     public ObservableList<T> showCategory (ProductCategory category);
+
+    public void calculateActualPrice();
 }
